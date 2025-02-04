@@ -1,2 +1,3 @@
 # Ignore credentials file
 service_account.json
+.env
