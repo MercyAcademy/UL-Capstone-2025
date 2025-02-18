@@ -1,6 +1,7 @@
 import json
 import requests
 import os
+from datetime import datetime
 from dotenv import load_dotenv
 
 # Creates the initial token and logs in using the api key, returns the newly opened session
@@ -30,15 +31,19 @@ def dataFromCalendar(door, session):
         singleDict = {}
         
         # Retrieves the info for date, door_status, end_time, and start_time
-        for key in {"date", "door_status", "end_time", "start_time"}:
+        for key in {"door_status", "end_time", "start_time"}:
             if key in doorExceptions:
-                singleDict[key] = doorExceptions[key]
+                if key == "start_time" or key == "end_time":
+                    singleDict[key] = datetime.strptime(doorExceptions["date"] + " " + doorExceptions[key], "%Y-%m-%d %H:%M:%S")
+
+                else:
+                    singleDict[key] = doorExceptions[key]
 
                 name = door.get("name")
 
                 if name not in dictsFiltered:
                     dictsFiltered[name] = []
-
+                
                 dictsFiltered[name].append(singleDict)
 
         return dictsFiltered
