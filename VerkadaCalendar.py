@@ -44,9 +44,9 @@ def dataFromCalendar(door, session):
                 if name not in dictsFiltered:
                     dictsFiltered[name] = []
                 
-                dictsFiltered[name].append(singleDict)
+        dictsFiltered[name].append(singleDict)
 
-        return dictsFiltered
+    return dictsFiltered
 
 # The main function that returns all the doors calendars in a dictionary
 def retrieveCalendar():
