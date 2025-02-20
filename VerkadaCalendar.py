@@ -47,9 +47,7 @@ def dataFromCalendar(door, session, daystofilter = 0):
         if(daystofilter != 0):
             
             maxdate = datetime.today()
-            print(maxdate)
             maxdate = maxdate + timedelta(days = daystofilter)
-            print(maxdate)
             
             if (singleDict['start_time'] > datetime.today() and singleDict['start_time'] < maxdate):
                 dictsFiltered[name].append(singleDict)
