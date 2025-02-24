@@ -1,7 +1,7 @@
 import json
 import requests
 import os
-from datetime import datetime
+from datetime import *
 from dotenv import load_dotenv
 
 # Creates the initial token and logs in using the api key, returns the newly opened session
@@ -23,7 +23,7 @@ def retrieveExceptionIDs(session):
     return doors
 
 # Returns a dictionary where the key is the name of the door and the value is a number of dictionaries for each day that has an exception
-def dataFromCalendar(door, session):
+def dataFromCalendar(door, session, daystofilter = 0):
     dictsFiltered = {}
 
     # Loops over all the days in the exceptions key
@@ -35,7 +35,8 @@ def dataFromCalendar(door, session):
             if key in doorExceptions:
                 if key == "start_time" or key == "end_time":
                     singleDict[key] = datetime.strptime(doorExceptions["date"] + " " + doorExceptions[key], "%Y-%m-%d %H:%M:%S")
-
+                    
+                        
                 else:
                     singleDict[key] = doorExceptions[key]
 
@@ -43,20 +44,30 @@ def dataFromCalendar(door, session):
 
                 if name not in dictsFiltered:
                     dictsFiltered[name] = []
+        if(daystofilter != 0):
+            
+            maxdate = datetime.today()
+            maxdate = maxdate + timedelta(days = daystofilter)
+            
+            if (singleDict['start_time'] > datetime.today() and singleDict['start_time'] < maxdate):
+                dictsFiltered[name].append(singleDict)
                 
-        dictsFiltered[name].append(singleDict)
+        else:
+            dictsFiltered[name].append(singleDict)
 
+    
+    
     return dictsFiltered
 
 # The main function that returns all the doors calendars in a dictionary
-def retrieveCalendar():
+def retrieveCalendar(daystofilter = 100):
     session = initialSetup()
     doors = retrieveExceptionIDs(session)
     allDoorsCalendars = {}
 
     # Loops through every door calendar to create one large dictionary containg all info
     for door in doors:
-        callDict = dataFromCalendar(door, session)   
+        callDict = dataFromCalendar(door, session, daystofilter)   
         
         if callDict:
             doorKey = next(iter(callDict))
