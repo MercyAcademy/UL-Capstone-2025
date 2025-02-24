@@ -21,6 +21,8 @@ jobs:
           python-version: "3.10"
 
       - name: Run test script
+        env:
+          VERKADAAPI_KEY: ${{ secrets.VERKADAAPI_KEY}}
         run: python TestScript.py
 
       - name: Upload output file
