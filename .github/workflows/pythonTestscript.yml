@@ -19,22 +19,8 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: "3.10"
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-      
+          
       - name: Run VerkadaCalendar
         env:
           VerkadaAPI_KEY: ${{ secrets.VERKADAAPI_KEY }}
         run: python VerkadaCalendar.py
-    
-      - name: Run TestScript script
-        run: python TestScript.py
-
-      - name: Upload output file
-        uses: actions/upload-artifact@v4
-        with:
-          name: test_output
-          path: test_output.txt
