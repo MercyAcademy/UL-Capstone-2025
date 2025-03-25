@@ -1,0 +1,94 @@
+{
+    "doors": [
+      {
+        "id": 1,
+        "name": "Test1",
+        "events": [
+          {
+            "status": "access_control",
+            "Offset": 3,
+            "start_time": "00:00",
+            "end_time": "23:59"
+          },
+	  {
+            "status": "unlocked",
+            "Offset": 3,
+            "start_time": "9:00",
+            "end_time": "14:00"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "Test2",
+        "events": [
+          {
+            "status": "access_control",
+            "Offset": 3,
+            "start_time": "00:00",
+            "end_time": "23:59"
+          },
+	  {
+            "status": "unlocked",
+            "Offset": 3,
+            "start_time": "9:00",
+            "end_time": "14:00"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "name": "Test3",
+        "events": [
+          {
+            "status": "access_control",
+            "Offset": 3,
+            "start_time": "00:00",
+            "end_time": "23:59"
+          },
+	  {
+            "status": "unlocked",
+            "Offset": 3,
+            "start_time": "9:00",
+            "end_time": "14:00"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "name": "Test4",
+        "events": [
+          {
+            "status": "access_control",
+            "Offset": 3,
+            "start_time": "00:00",
+            "end_time": "23:59"
+          },
+	  {
+            "status": "unlocked",
+            "Offset": 3,
+            "start_time": "9:00",
+            "end_time": "14:00"
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "name": "Test5",
+        "events": [
+          {
+            "status": "access_control",
+            "Offset": 3,
+            "start_time": "00:00",
+            "end_time": "23:59"
+          },
+	  {
+            "status": "unlocked",
+            "Offset": 3,
+            "start_time": "9:00",
+            "end_time": "14:00"
+          }
+        ]
+      }
+    ]
+  }
