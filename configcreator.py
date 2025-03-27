@@ -5,13 +5,13 @@ import logging
 def create_config():
     config = configparser.ConfigParser()
 
-    config['General'] = {'testmode': False, 'Days_To_Schedule': 10}
-    config['Google'] = {'groups': 'group_names'}
+    config['General'] = {'testmode': False, 'Days_To_Schedule': 10,'Send_Emails': True,'Setting 4': False,'Setting 5': False}
+    config['Google'] = {'groups': 'group_names','mailinglist': 'emails'}
 
     with open('config.ini', 'w') as configfile:
         config.write(configfile)
 
-    logging.log(os.getcwd())
+    print(os.getcwd())
     
 def read_config():
     config = configparser.ConfigParser()
@@ -19,16 +19,19 @@ def read_config():
 
     debug_mode = config.getboolean('General', 'testmode')
     log_level = config.getint('General', 'Days_To_Schedule')
-    db_name = config.get('Google', 'groups')
+    Send_Emails = config.getboolean('General', 'Send_Emails')
 
+    db_name = config.get('Google', 'groups')
+    mailinglist = config.get('Google','mailinglist')
     config_values = {
         'testmode': debug_mode,
         'Days_To_Schedule': log_level,
+        'Send_Emails': Send_Emails,
         'groups': db_name,
+        'mailinglist': mailinglist
     }
 
     return config_values
 
 if __name__ == "__main__":
-    create_config()
     print(read_config())
