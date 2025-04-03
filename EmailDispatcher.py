@@ -3,6 +3,7 @@ import smtplib
 import datetime
 import configcreator
 import os;
+from multiprocessing import Process
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
@@ -13,6 +14,8 @@ subject = "Notice of Schedule Change"
 text = "The door schedule has been changed"
 sender = "yinzstudio@gmail.com"
 recipients = configcreator.read_config()['mailinglist'].split(" ")
+imagepath = configcreator.read_config()['emailimagepath']
+
 load_dotenv()
 password = os.environ.get("GMAIL")
 
@@ -36,7 +39,7 @@ def send_email(subject, body, sender, recipients, password):
     msg.attach(part2)
 
     
-    with open("mercylogo.png", 'rb') as image_file:
+    with open(imagepath, 'rb') as image_file:
         image_data = image_file.read()
         image = MIMEImage(image_data, name=os.path.basename("mercylogo.png"))
         image.add_header('Content-ID', '<image1>')
@@ -67,4 +70,8 @@ def emailmultipledoorchange():
 originalevent = {'door_status': 'unlocked', 'start_time': datetime.datetime(2025, 3, 20, 17, 30), 'end_time': datetime.datetime(2025, 3, 20, 19, 0)}
 newevent = {'door_status': 'access_controlled', 'start_time': datetime.datetime(2025, 3, 21, 16, 30), 'end_time': datetime.datetime(2025, 3, 21, 17, 30)}
 
-emailfromdoorchange("Atrium",originalevent,newevent)
+#emailfromdoorchange("Atrium",originalevent,newevent)
+if __name__ == '__main__':
+    p = Process(target=emailfromdoorchange, args=("Atrium",originalevent,newevent))
+    p.start()
+    p.join()
