@@ -6,7 +6,7 @@ def create_config():
     config = configparser.ConfigParser()
 
     config['General'] = {'testmode': False, 'Days_To_Schedule': 10,'Send_Emails': True,'Setting 4': False,'Setting 5': False}
-    config['Google'] = {'groups': 'group_names','mailinglist': 'emails','emailimagepath': 'emails'}
+    config['Google'] = {'groups': 'group_names','mailinglist': 'emails','emailimagepath': 'mercylogo.png'}
 
     with open('config.ini', 'w') as configfile:
         config.write(configfile)
