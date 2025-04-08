@@ -1,7 +1,7 @@
 import json
 import requests
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 from dotenv import load_dotenv
 
 # Creates the initial token and logs in using the api key, returns the newly opened session
@@ -22,29 +22,87 @@ def retrieveExceptionIDs(session):
     doors = doorsJson.get("door_exception_calendars", [])
     return doors
 
-# Returns a dictionary where the key is the name of the door and the value is a number of dictionaries for each day that has an exception
 def dataFromCalendar(door, session):
     dictsFiltered = {}
+    weekdayMap = {"MO": 0, "TU": 1, "WE": 2, "TH": 3, "FR": 4, "SA": 5, "SU": 6}
 
-    # Loops over all the days in the exceptions key
     for doorExceptions in door.get("exceptions", []):
         singleDict = {}
-        
-        # Retrieves the info for date, door_status, end_time, and start_time
-        for key in {"door_status", "end_time", "start_time"}:
-            if key in doorExceptions:
-                if key == "start_time" or key == "end_time":
-                    singleDict[key] = datetime.strptime(doorExceptions["date"] + " " + doorExceptions[key], "%Y-%m-%d %H:%M:%S")
+       
+        if doorExceptions["recurrence_rule"] != None:
+            start = datetime.strptime(doorExceptions["date"] + " " + doorExceptions["start_time"], "%Y-%m-%d %H:%M:%S")
+            end = datetime.strptime(doorExceptions["date"] + " " + doorExceptions["end_time"], "%Y-%m-%d %H:%M:%S")
+            until = datetime.strptime(doorExceptions["recurrence_rule"]["until"], "%Y-%m-%d")
+            name = door.get("name")
+            
+            if name not in dictsFiltered:
+                dictsFiltered[name] = []
 
-                else:
-                    singleDict[key] = doorExceptions[key]
-
-                name = door.get("name")
-
-                if name not in dictsFiltered:
-                    dictsFiltered[name] = []
+            if doorExceptions["recurrence_rule"] == "Daily":
+                currentDate = start
                 
-        dictsFiltered[name].append(singleDict)
+                while currentDate <= until:
+                    if currentDate.date() > datetime.now().date():
+                        is_excluded = False
+                        
+                        if "excluded_dates" in doorExceptions:
+                            exclude = doorExceptions["excluded_dates"]
+                            
+                            for excludeDate in exclude:
+                                if datetime.strptime(excludeDate, "%Y-%m-%d").date() == currentDate.date():
+                                    is_excluded = True
+                                    break
+
+                        if not is_excluded:
+                            singleDict = {"door_status": doorExceptions["door_status"], "start_time": currentDate, "end_time": currentDate.replace(hour=end.hour, minute=end.minute, second=end.second)}
+                            dictsFiltered[name].append(singleDict)
+
+                    currentDate += timedelta(days=1)
+
+            else:
+                currentDate = start
+                byDay = doorExceptions["recurrence_rule"].get("by_day", [])
+                if not byDay:
+                    byDay = [list(weekdayMap.keys())[start.weekday()]]
+                target_weekdays = [weekdayMap[day] for day in byDay] 
+                
+                while currentDate <= until:
+                    if currentDate.weekday() in target_weekdays and currentDate.date() > datetime.now().date():
+                        if "excluded_dates" in doorExceptions["recurrence_rule"] and doorExceptions["recurrence_rule"]["excluded_dates"] is not None:
+                            exclude = doorExceptions["recurrence_rule"]["excluded_dates"]
+                            is_excluded = False
+                            
+                            for excludeDate in exclude:
+                                if datetime.strptime(excludeDate, "%Y-%m-%d").date() == currentDate.date():
+                                    is_excluded = True
+                                    break
+
+                        if not is_excluded:
+                            singleDict = {"door_status": doorExceptions["door_status"], "start_time": currentDate, "end_time": currentDate.replace(hour=end.hour, minute=end.minute, second=end.second)}
+                            dictsFiltered[name].append(singleDict)
+
+                    currentDate += timedelta(days=1)
+                    if currentDate.weekday() == 0 and currentDate > start:
+                        currentDate += timedelta(days=(7 - (currentDate - start).days % 7) % 7)
+
+        else:
+            for key in {"door_status", "end_time", "start_time"}:
+                if key in doorExceptions:
+                    if key == "start_time" or key == "end_time":
+                        singleDict[key] = datetime.strptime(doorExceptions["date"] + " " + doorExceptions[key], "%Y-%m-%d %H:%M:%S") # Verkada times are in UTC
+
+                        if singleDict[key].date() < datetime.now().date():
+                            break
+
+                    else:
+                        singleDict[key] = doorExceptions[key]
+
+                    name = door.get("name")
+
+                    if name not in dictsFiltered:
+                        dictsFiltered[name] = []
+            else:
+                dictsFiltered[name].append(singleDict)
 
     return dictsFiltered
 
@@ -54,7 +112,6 @@ def retrieveCalendar():
     doors = retrieveExceptionIDs(session)
     allDoorsCalendars = {}
 
-    # Loops through every door calendar to create one large dictionary containg all info
     for door in doors:
         callDict = dataFromCalendar(door, session)   
         
