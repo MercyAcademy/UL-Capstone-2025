@@ -102,18 +102,18 @@ def dataFromCalendar(door, session):
                     if name not in dictsFiltered:
                         dictsFiltered[name] = []
             else:
-                dictsFiltered[name].append(singleDict)
-
+                dictsFiltered[name].append(singleDict)   
+    
     return dictsFiltered
 
 # The main function that returns all the doors calendars in a dictionary
-def retrieveCalendar():
+def retrieveCalendar(daystofilter = 100):
     session = initialSetup()
     doors = retrieveExceptionIDs(session)
     allDoorsCalendars = {}
 
     for door in doors:
-        callDict = dataFromCalendar(door, session)   
+        callDict = dataFromCalendar(door, session, daystofilter)   
         
         if callDict:
             doorKey = next(iter(callDict))
