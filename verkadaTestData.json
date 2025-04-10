@@ -2,10 +2,10 @@
     "doors": [
       {
         "id": 1,
-        "name": "Test1",
+        "name": "TestBasic",
         "events": [
           {
-            "status": "access_control",
+            "status": "access_controlled",
             "Offset": 3,
             "start_time": "00:00",
             "end_time": "23:59"
@@ -20,55 +20,163 @@
       },
       {
         "id": 2,
-        "name": "Test2",
+        "name": "TestOverlap1",
         "events": [
           {
-            "status": "access_control",
+            "status": "access_controlled",
             "Offset": 3,
-            "start_time": "00:00",
-            "end_time": "23:59"
+            "start_time": "3:00",
+            "end_time": "5:00"
           },
 	  {
             "status": "unlocked",
             "Offset": 3,
-            "start_time": "9:00",
-            "end_time": "14:00"
+            "start_time": "4:00",
+            "end_time": "5:00"
+          },
+	  {
+            "status": "access_controlled",
+            "Offset": 4,
+            "start_time": "3:00",
+            "end_time": "5:00"
+          },
+	  {
+            "status": "unlocked",
+            "Offset": 4,
+            "start_time": "3:00",
+            "end_time": "4:00"
+          },
+	  {
+            "status": "access_controlled",
+            "Offset": 5,
+            "start_time": "3:00",
+            "end_time": "5:00"
+          },
+	  {
+            "status": "unlocked",
+            "Offset": 5,
+            "start_time": "4:00",
+            "end_time": "6:00"
           }
         ]
       },
       {
         "id": 3,
-        "name": "Test3",
+        "name": "TestOverlap2",
         "events": [
           {
-            "status": "access_control",
+            "status": "locked",
             "Offset": 3,
             "start_time": "00:00",
             "end_time": "23:59"
           },
 	  {
-            "status": "unlocked",
+            "status": "access_controlled",
             "Offset": 3,
             "start_time": "9:00",
-            "end_time": "14:00"
+            "end_time": "18:00"
+          },
+          {
+            "status": "card_and_code",
+            "Offset": 3,
+            "start_time": "10:00",
+            "end_time": "16:00"
+          },
+          {
+            "status": "unlocked",
+            "Offset": 3,
+            "start_time": "10:00",
+            "end_time": "16:00"
+          },
+          {
+            "status": "locked",
+            "Offset": 4,
+            "start_time": "00:00",
+            "end_time": "23:59"
+          },
+	  {
+            "status": "access_controlled",
+            "Offset": 4,
+            "start_time": "9:00",
+            "end_time": "23:59"
+          },
+          {
+            "status": "card_and_code",
+            "Offset": 4,
+            "start_time": "10:00",
+            "end_time": "23:59"
+          },
+          {
+            "status": "unlocked",
+            "Offset": 4,
+            "start_time": "10:00",
+            "end_time": "23:59"
+          },
+          {
+            "status": "locked",
+            "Offset": 5,
+            "start_time": "00:00",
+            "end_time": "20:59"
+          },
+	  {
+            "status": "access_controlled",
+            "Offset": 5,
+            "start_time": "9:00",
+            "end_time": "21:59"
+          },
+          {
+            "status": "card_and_code",
+            "Offset": 5,
+            "start_time": "10:00",
+            "end_time": "22:59"
+          },
+          {
+            "status": "unlocked",
+            "Offset": 5,
+            "start_time": "10:00",
+            "end_time": "23:59"
           }
         ]
       },
       {
         "id": 4,
-        "name": "Test4",
+        "name": "TestMultipleOverlap",
         "events": [
-          {
-            "status": "access_control",
-            "Offset": 3,
-            "start_time": "00:00",
-            "end_time": "23:59"
-          },
 	  {
             "status": "unlocked",
             "Offset": 3,
-            "start_time": "9:00",
+            "start_time": "10:00",
+            "end_time": "12:00"
+          },
+          {
+            "status": "card_and_code",
+            "Offset": 3,
+            "start_time": "12:00",
             "end_time": "14:00"
+          },
+          {
+            "status": "access_controlled",
+            "Offset": 3,
+            "start_time": "14:00",
+            "end_time": "16:00"
+          },
+          {
+            "status": "unlocked",
+            "Offset": 4,
+            "start_time": "10:00",
+            "end_time": "12:00"
+          },
+          {
+            "status": "access_controlled",
+            "Offset": 4,
+            "start_time": "12:00",
+            "end_time": "14:00"
+          },
+          {
+            "status": "unlocked",
+            "Offset": 4,
+            "start_time": "14:00",
+            "end_time": "16:00"
           }
         ]
       },
@@ -77,7 +185,7 @@
         "name": "Test5",
         "events": [
           {
-            "status": "access_control",
+            "status": "access_controlled",
             "Offset": 3,
             "start_time": "00:00",
             "end_time": "23:59"
