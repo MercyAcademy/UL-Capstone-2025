@@ -23,7 +23,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
         
-      - name: Run VerkadaCalendar
+      - name: Run GoogleRunner
         env:
-          VerkadaAPI_KEY: ${{ secrets.VERKADAAPI_KEY }}
-        run: python VerkadaCalendar.py
+          API_KEY: ${{ secrets.API_KEY }}
+        run: python GoogleRunner.py
