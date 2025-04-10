@@ -7,7 +7,7 @@ from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-SERVICE_ACCOUNT = "/home/jamsterslam/Documents/service_account.json"
+SERVICE_ACCOUNT = "service_account.json"
 SCOPES = ["https://www.googleapis.com/auth/calendar"]
 
 def startup_creds():
