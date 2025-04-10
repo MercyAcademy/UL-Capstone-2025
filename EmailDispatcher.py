@@ -3,18 +3,20 @@ import smtplib
 import datetime
 import configcreator
 import os;
-from multiprocessing import Process
+from threading import Thread;
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
 from dotenv import load_dotenv
 
+configvalues = configcreator.read_config()
+sendemails = configvalues['Send_Emails']
 
 subject = "Notice of Schedule Change"
 text = "The door schedule has been changed"
-sender = "yinzstudio@gmail.com"
-recipients = configcreator.read_config()['mailinglist'].split(" ")
-imagepath = configcreator.read_config()['emailimagepath']
+sender = configvalues['Email_sender_address']
+recipients = configvalues['mailinglist'].split(" ")
+imagepath = configvalues['emailimagepath']
 
 load_dotenv()
 password = os.environ.get("GMAIL")
@@ -72,6 +74,7 @@ newevent = {'door_status': 'access_controlled', 'start_time': datetime.datetime(
 
 #emailfromdoorchange("Atrium",originalevent,newevent)
 if __name__ == '__main__':
-    p = Process(target=emailfromdoorchange, args=("Atrium",originalevent,newevent))
-    p.start()
-    p.join()
+    if(sendemails):
+        p = Thread(target=emailfromdoorchange, args=("Atrium",originalevent,newevent))
+        p.start()
+        p.join()

@@ -1,12 +1,18 @@
 import datetime
 import CalendarOperations
 import VerkadaScheduleMerger
+import configcreator
 import json
+import EmailDispatcher
 from datetime import datetime, timezone
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
+
+ConfigValues = configcreator.read_config()
+
+sendemails = False
 SERVICE_ACCOUNT = "/home/jamsterslam/Documents/service_account.json"
 SCOPES = ["https://www.googleapis.com/auth/calendar"]
 
@@ -63,6 +69,8 @@ def update(google, verkada):
             fullDelete.extend(delete)
             fullAdd.extend(add)
 
+    if((fullDelete+fullAdd)!= []):
+        sendemails = True
     return fullDelete, fullAdd
 
 def change(verkada, google, name):
@@ -105,5 +113,11 @@ def run():
         print(f"An error occurred: {error}")
 
 if __name__ == "__main__":
-    run()
-    #dryRun()
+    if(ConfigValues['testmode'] == True):
+        dryRun()
+        
+    else:
+        run()
+
+    if(sendemails):
+        EmailDispatcher.sendemails()
