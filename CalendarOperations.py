@@ -1,7 +1,8 @@
 import datetime
+import os
 
 # ID of the calendar to be used
-CALENDAR_ID = "4824f6e23a9b27a085eb59931de25712868596f07beee0fec87e02ac1dd7ed64@group.calendar.google.com"
+CALENDAR_ID = os.environ.get("CALENDAR_ID")
 eventColor = {"unlocked": "10", "locked": "11", "access_controlled": "8", "card_and_code": "5"} 
 
 def retrieve(service):

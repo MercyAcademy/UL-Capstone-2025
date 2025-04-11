@@ -29,4 +29,5 @@ jobs:
       - name: Run GoogleRunner
         env:
           API_KEY: ${{ secrets.API_KEY }}
+          CALENDAR_ID: ${{ secrets.CALENDAR_ID }}
         run: python GoogleRunner.py
