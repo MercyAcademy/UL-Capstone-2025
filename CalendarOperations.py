@@ -1,5 +1,6 @@
 import datetime
 import os
+import pytz
 
 # ID of the calendar to be used
 CALENDAR_ID = os.environ.get("CALENDAR_ID")
@@ -27,12 +28,12 @@ def add(event, service):
     newEvent = {
         "summary": event["name"],
         "start": {
-            "dateTime": event["start_time"].isoformat(),
-            "timeZone": "America/New_York",
+            "dateTime": event["start_time"].astimezone(pytz.timezone("America/New_York")).isoformat(),
+            "timeZone": "UTC",
         },
         "end": {
-            "dateTime": event["end_time"].isoformat(),
-            "timeZone": "America/New_York",
+            "dateTime": event["end_time"].astimezone(pytz.timezone("America/New_York")).isoformat(),
+            "timeZone": "UTC",
         },
         "description": event["door_status"],
         "colorId": eventColor[event["door_status"]]
