@@ -27,12 +27,12 @@ def add(event, service):
     newEvent = {
         "summary": event["name"],
         "start": {
-            "dateTime": (event["start_time"].isoformat() + "Z"),
-            "timeZone": "UTC",
+            "dateTime": event["start_time"].isoformat() + "Z",
+            "timeZone": "America/New_York",
         },
         "end": {
-            "dateTime": (event["end_time"].isoformat() + "Z"),
-            "timeZone": "UTC",
+            "dateTime": event["end_time"].isoformat() + "Z",
+            "timeZone": "America/New_York",
         },
         "description": event["door_status"],
         "colorId": eventColor[event["door_status"]]
