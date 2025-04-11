@@ -25,7 +25,9 @@ jobs:
        
       - name: Write service_account.json from secret
         run: |
-          echo "${{ secrets.SERVICE_ACCOUNT }}" > service_account.json 
+          echo "$SERVICE_ACCOUNT" | base64 --decode > SERVICE_ACCOUNT.json
+        env:
+          SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}
 
       - name: Run GoogleRunner
         env:
