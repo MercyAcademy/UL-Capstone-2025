@@ -77,9 +77,9 @@ def dataFromCalendar(door, session):
                                     is_excluded = True
                                     break
 
-                        if not is_excluded:
-                            singleDict = {"door_status": doorExceptions["door_status"], "start_time": currentDate, "end_time": currentDate.replace(hour=end.hour, minute=end.minute, second=end.second)}
-                            dictsFiltered[name].append(singleDict)
+                            if not is_excluded:
+                                singleDict = {"door_status": doorExceptions["door_status"], "start_time": currentDate, "end_time": currentDate.replace(hour=end.hour, minute=end.minute, second=end.second)}
+                                dictsFiltered[name].append(singleDict)
 
                     currentDate += timedelta(days=1)
                     if currentDate.weekday() == 0 and currentDate > start:
