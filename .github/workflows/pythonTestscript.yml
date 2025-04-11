@@ -24,10 +24,7 @@ jobs:
         run: pip install -r requirements.txt
        
       - name: Write service_account.json from secret
-        run: |
-          echo "$SERVICE_ACCOUNT" | base64 --decode > SERVICE_ACCOUNT.json
-        env:
-          SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}
+        run: echo "${{ secrets.SERVICE_ACCOUNT }}" | base64 --decode > service_account.json
 
       - name: Run GoogleRunner
         env:
