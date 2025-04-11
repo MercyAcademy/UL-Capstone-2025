@@ -33,8 +33,8 @@ def organize(gCalendar):
     gDict = {}
 
     for event in gCalendar:
-        event["start"] = datetime.fromisoformat(event["start"]["dateTime"]).replace(tzinfor=None)
-        event["end"] = datetime.fromisoformat(event["end"]["dateTime"]).replace(tzinfor=None)
+        event["start"] = datetime.fromisoformat(event["start"]["dateTime"]).replace(tzinfo=None)
+        event["end"] = datetime.fromisoformat(event["end"]["dateTime"]).replace(tzinfo=None)
 
         if event["summary"] in gDict:
             gDict[event["summary"]].append(event)
