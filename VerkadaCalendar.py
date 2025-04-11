@@ -113,7 +113,7 @@ def retrieveCalendar(daystofilter = 100):
     allDoorsCalendars = {}
 
     for door in doors:
-        callDict = dataFromCalendar(door, session, daystofilter)   
+        callDict = dataFromCalendar(door, session)   
         
         if callDict:
             doorKey = next(iter(callDict))
