@@ -28,12 +28,12 @@ def add(event, service):
     newEvent = {
         "summary": event["name"],
         "start": {
-            "dateTime": event["start_time"].astimezone(pytz.timezone("America/New_York")).isoformat(),
-            "timeZone": "UTC",
+            "dateTime": event["start_time"].strftime("%Y-%m-%dT%H:%M:%S"),
+            "timeZone": "America/New_York",
         },
         "end": {
-            "dateTime": event["end_time"].astimezone(pytz.timezone("America/New_York")).isoformat(),
-            "timeZone": "UTC",
+            "dateTime": event["end_time"].strftime("%Y-%m-%dT%H:%M:%S"),
+            "timeZone": "America/New_York",
         },
         "description": event["door_status"],
         "colorId": eventColor[event["door_status"]]
