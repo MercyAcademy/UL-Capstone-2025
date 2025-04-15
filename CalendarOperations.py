@@ -7,7 +7,7 @@ CALENDAR_ID = os.environ.get("CALENDAR_ID")
 eventColor = {"unlocked": "10", "locked": "11", "access_controlled": "8", "card_and_code": "5"} 
 
 def retrieve(service):
-    now = datetime.datetime.utcnow().isoformat() + "Z"  # 'Z' indicates UTC time
+    now = datetime.datetime.now(datetime.timezone.utc).isoformat()
 
     events_result = (
         service.events()
