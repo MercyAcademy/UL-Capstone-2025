@@ -1,7 +1,7 @@
 import datetime
 import VerkadaCalendar
 
-weights = ['unlocked', 'card_and_code', 'access_controlled', 'locked']
+weights = ['locked', 'access_controlled', 'card_and_code', 'unlocked']
 
 def mergeVerkadaSchedule():  
     currExceptions = VerkadaCalendar.retrieveCalendar()
