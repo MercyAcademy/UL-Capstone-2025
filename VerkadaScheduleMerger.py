@@ -23,13 +23,14 @@ def mergeVerkadaSchedule():
                         newExceptionList[-1] = {'door_status': previous['door_status'], 'start_time': previous['start_time'], 'end_time': exception['start_time']}  
                         newExceptionList.append(exception)
                         newExceptionList.append({'door_status': previous['door_status'], 'start_time': exception['end_time'], 'end_time': previous['end_time']})
-                        previous = {'door_status': previous['door_status'], 'start_time': exception['end_time'], 'end_time': previous['end_time']}
-                    
-                    else:
-                        newExceptionList[-1]['end_time'] = exception['start_time']
-                        newExceptionList.append(exception)
-                        previous = exception
+                        previous = newExceptionList[-1]           
                         
+                    else:
+                        exception['start_time'] = previous['end_time']
+                        if exception['start_time'] < exception['end_time']:
+                            newExceptionList.append(exception)
+                            previous = exception
+                            
                 else:
                     if weights.index(previous['door_status']) < weights.index(exception['door_status']):
                         newExceptionList[-1]['end_time'] = exception['start_time']
@@ -38,9 +39,10 @@ def mergeVerkadaSchedule():
                     
                     else:
                         exception['start_time'] = previous['end_time']
-                        newExceptionList.append(exception)
-                        previous = exception
-                        
+                        if exception['start_time'] < exception['end_time']:
+                            newExceptionList.append(exception)
+                            previous = exception
+                            
             else:
                 newExceptionList.append(exception)
                 previous = exception
@@ -48,5 +50,6 @@ def mergeVerkadaSchedule():
         currExceptions[door] = newExceptionList
         
     return currExceptions
+    
 if __name__ == "__main__":
     print(mergeVerkadaSchedule())
