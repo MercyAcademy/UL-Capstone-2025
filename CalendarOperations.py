@@ -1,19 +1,21 @@
-import datetime
-import os
-import pytz
+from datetime import datetime, timezone, timedelta, time
 
 # ID of the calendar to be used
 CALENDAR_ID = os.environ.get("CALENDAR_ID")
 eventColor = {"unlocked": "10", "locked": "11", "access_controlled": "8", "card_and_code": "5"} 
 
 def retrieve(service):
-    now = datetime.datetime.now(datetime.timezone.utc).isoformat()
-
+    startYesterday = datetime.combine(
+        (datetime.now(timezone.utc) - timedelta(days=1)).date(),
+        time.min,
+        tzinfo=timezone.utc
+    ).isoformat()
+    
     events_result = (
         service.events()
         .list(
             calendarId=CALENDAR_ID, # This is the test calendar
-            timeMin=now, # UTC Time, gives only future events
+            timeMin=startYesterday, # UTC Time, Retrieves events starting from day before today
             singleEvents=True, # Expands recurring events into separate instances rather than grouping them
             orderBy="startTime", # Sorted by start time in ascending order UTC
             fields="items(summary,id,description,start,end,colorId)"
